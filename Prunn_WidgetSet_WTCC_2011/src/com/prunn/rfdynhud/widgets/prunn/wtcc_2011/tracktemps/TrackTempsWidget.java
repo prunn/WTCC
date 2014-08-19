@@ -56,7 +56,7 @@ public class TrackTempsWidget extends Widget
     @Override
     public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
     {
-        super.onRealtimeEntered( gameData, isEditorMode );
+        super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
         if(!isEditorMode)
             log(cpid);
@@ -101,9 +101,9 @@ public class TrackTempsWidget extends Widget
         else
             units = "°F";
         
-        AmbientTemp.update((int)Math.floor(gameData.getScoringInfo().getAmbientTemperature()));
-        TrackTemp.update((int)Math.floor(gameData.getScoringInfo().getTrackTemperature()));
-        rainingSeverity.update(gameData.getScoringInfo().getRainingSeverity());
+        AmbientTemp.update((int)Math.floor(gameData.getWeatherInfo().getAmbientTemperature()));
+        TrackTemp.update((int)Math.floor(gameData.getWeatherInfo().getTrackTemperature()));
+        rainingSeverity.update(gameData.getWeatherInfo().getRainingSeverity());
         
         if ( needsCompleteRedraw || AmbientTemp.hasChanged())
             dsAmbient.draw( offsetX, offsetY, AmbientTemp.getValueAsString() + units, texture );
