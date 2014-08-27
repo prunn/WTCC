@@ -3,11 +3,7 @@ package com.prunn.rfdynhud.widgets.prunn.wtcc_2011.qualifinfo;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
-
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import com.prunn.rfdynhud.widgets.prunn._util.PrunnWidgetSet_wtcc_2011;
-//import com.prunn.rfdynhud.widgets.prunn.wtcc_2011.qtime.QualTimeWidget;
-
 import net.ctdp.rfdynhud.gamedata.LiveGameData;
 import net.ctdp.rfdynhud.gamedata.ScoringInfo;
 import net.ctdp.rfdynhud.gamedata.VehicleScoringInfo;
@@ -64,7 +60,6 @@ public class QualifInfoWidget extends Widget
     private long visibleEnd;
     private IntValue cveh = new IntValue();
     private BoolValue cpit = new BoolValue();
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     private StringValue team = new StringValue();
     private StringValue name = new StringValue();
     private StringValue pos = new StringValue();
@@ -75,7 +70,7 @@ public class QualifInfoWidget extends Widget
     private String[] listPNG;
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -207,14 +202,14 @@ public class QualifInfoWidget extends Widget
         {
     	    VehicleScoringInfo currentcarinfos = gameData.getScoringInfo().getViewedVehicleScoringInfo();
             
-        	name.update( gen.ShortNameWTCC(currentcarinfos.getDriverName()) );
+        	name.update( PrunnWidgetSet_wtcc_2011.ShortNameWTCC(currentcarinfos.getDriverName()) );
             if(currentcarinfos.getVehicleInfo() != null)
                 pos.update( NumberUtil.formatFloat( currentcarinfos.getVehicleInfo().getCarNumber(), 0, true));
             else
                 pos.update( NumberUtil.formatFloat( currentcarinfos.getDriverId(), 0, true));
             
             if(currentcarinfos.getVehicleInfo() != null)
-                team.update( gen.generateShortTeamNames( currentcarinfos.getVehicleInfo().getFullTeamName(), gameData.getFileSystem().getConfigFolder() ));
+                team.update( PrunnWidgetSet_wtcc_2011.generateShortTeamNames( currentcarinfos.getVehicleInfo().getFullTeamName(), gameData.getFileSystem().getConfigFolder() ));
             else
                 team.update( currentcarinfos.getVehicleClass()); 
                 

@@ -1,9 +1,9 @@
 package com.prunn.rfdynhud.widgets.prunn.wtcc_2011.qualtimingtower;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
-
 import net.ctdp.rfdynhud.gamedata.FinishStatus;
 import net.ctdp.rfdynhud.gamedata.LiveGameData;
 import net.ctdp.rfdynhud.gamedata.ScoringInfo;
@@ -22,6 +22,7 @@ import net.ctdp.rfdynhud.render.DrawnString.Alignment;
 import net.ctdp.rfdynhud.render.DrawnStringFactory;
 import net.ctdp.rfdynhud.render.TextureImage2D;
 import net.ctdp.rfdynhud.util.PropertyWriter;
+import net.ctdp.rfdynhud.util.RFDHLog;
 import net.ctdp.rfdynhud.util.StandingsTools;
 import net.ctdp.rfdynhud.util.SubTextureCollector;
 import net.ctdp.rfdynhud.util.TimingUtil;
@@ -88,7 +89,6 @@ public class QualifTimingTowerWidget extends Widget
     private int[] driverIDs = null;
     private boolean[] gapFlag = null;
     private boolean[] gapFlag2 = null;
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     private static final InputAction showTimes = new InputAction( "Show times", true );
     private final IntValue inputShowTimes = new IntValue();
     private BooleanProperty AbsTimes = new BooleanProperty("Use absolute times", false) ;
@@ -100,7 +100,7 @@ public class QualifTimingTowerWidget extends Widget
         return ( new InputAction[] { showTimes } );
     }
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -222,7 +222,63 @@ public class QualifTimingTowerWidget extends Widget
         texPit = imgPit.getImage().getScaledTextureImage( width*17/100, rowHeight, texPit, isEditorMode );
         
     }
-    
+    public String generateThreeLetterCode2( String driverName, java.io.File getConfigFolder )
+    {
+        
+        //check if name is in ini file
+        File ini;
+        //ini = new File(gameData.getFileSystem().getConfigFolder(), "three_letter_codes.ini");
+        ini = new File(getConfigFolder, "three_letter_codes.ini");
+        
+        
+        if(ini.exists())
+        {    
+            try
+            {
+                int delimiter;
+                String line;
+                String fromFileTLC="";
+                BufferedReader br = new BufferedReader( new FileReader( ini ) );
+                
+                while ((line = br.readLine()) != null)
+                {   
+                    delimiter = line.lastIndexOf( '=' );
+                    
+                    if(driverName.toUpperCase().equals(line.substring( 0, delimiter ).toUpperCase()))
+                    {
+                        fromFileTLC = line.substring( line.length() - 3, line.length() ).toUpperCase();
+                        //RFDHLog.exception( "TLC:" + fromFileTLC ) ;
+                        return fromFileTLC;
+                    }
+                           
+                        
+                }
+                
+            }
+            catch ( Throwable t )
+            {
+               
+            }
+        }
+        else
+            RFDHLog.exception( "WARNING: No three_letter_codes.ini found." );
+        
+        
+        if ( driverName.length() <= 3 )
+        {
+            return ( driverName.toUpperCase() );
+        }
+        
+        int sp = driverName.lastIndexOf( ' ' );
+        if ( sp == -1 )
+        {
+            return ( driverName.substring( 0, 3 ).toUpperCase() );
+        }
+        
+        String tlc = driverName.substring( sp + 1, Math.min( sp + 4, driverName.length() ) ).toUpperCase();
+        
+        return ( tlc );
+    }
     @Override
     protected Boolean updateVisibility( LiveGameData gameData, boolean isEditorMode )
     {
@@ -260,7 +316,7 @@ public class QualifTimingTowerWidget extends Widget
             {
 
                 positions[i].update( vsi.getPlace( false ) );
-                driverNames[i].update(gen.generateThreeLetterCode2( vsi.getDriverName(), gameData.getFileSystem().getConfigFolder() ));
+                driverNames[i].update(generateThreeLetterCode2( vsi.getDriverName(), gameData.getFileSystem().getConfigFolder() ));
                 IsInPit[i].update( vsi.isInPits() );
                 
                 if(vsi.getFinishStatus() == FinishStatus.FINISHED)

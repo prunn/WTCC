@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import com.prunn.rfdynhud.widgets.prunn._util.PrunnWidgetSet_wtcc_2011;
 
 import net.ctdp.rfdynhud.gamedata.FinishStatus;
@@ -72,7 +71,6 @@ public class QualTimeWidget extends Widget
     private final FontProperty posFont = new FontProperty("positionFont", PrunnWidgetSet_wtcc_2011.WTCC_2011_FONT_RACE_NUMBERS);
     protected final FontProperty wtcc_2011_Times_Font = new FontProperty("Time Font", PrunnWidgetSet_wtcc_2011.WTCC_2011_FONT_TIMES);
     private final ColorProperty fontColor1 = new ColorProperty("fontColor1", PrunnWidgetSet_wtcc_2011.FONT_COLOR1_NAME);
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     
     protected final BooleanProperty forcePlayer = new BooleanProperty("Force to player", "forcePlayer", false);
     private int NumOfPNG = 0;
@@ -102,7 +100,7 @@ public class QualTimeWidget extends Widget
     
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -432,7 +430,7 @@ public class QualTimeWidget extends Widget
         
         if ( needsCompleteRedraw || ( clock.c() && leaderID.hasChanged() ) )
         {
-            dsName.draw( offsetX, offsetY, gen.ShortNameWTCC( currentcarinfos.getDriverName().toUpperCase() ), texture );
+            dsName.draw( offsetX, offsetY, PrunnWidgetSet_wtcc_2011.ShortNameWTCC( currentcarinfos.getDriverName().toUpperCase() ), texture );
             
         }
         ownPos.update( currentcarinfos.getPlace( false ) );

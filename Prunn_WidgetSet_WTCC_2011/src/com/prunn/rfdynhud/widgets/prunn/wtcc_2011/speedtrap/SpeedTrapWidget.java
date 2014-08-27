@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import com.prunn.rfdynhud.widgets.prunn._util.PrunnWidgetSet_wtcc_2011;
 
 import net.ctdp.rfdynhud.gamedata.LiveGameData;
@@ -59,7 +58,6 @@ public class SpeedTrapWidget extends Widget
     protected final ColorProperty fontColorTopSpeed = new ColorProperty("fontColor5", PrunnWidgetSet_wtcc_2011.FONT_COLOR_TOP_SPEED_NAME);
     private final BooleanProperty forceleader = new BooleanProperty("Force Leader", false);
     private IntProperty fontyoffset = new IntProperty("Y Font Offset", 0);
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     
     FloatValue CurSpeed = new FloatValue(-1F, 0.001F);
     
@@ -72,7 +70,7 @@ public class SpeedTrapWidget extends Widget
     
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -263,7 +261,7 @@ public class SpeedTrapWidget extends Widget
             else
                 dsCurSpeed.draw( offsetX, offsetY, NumberUtil.formatFloat( topspeed ,1,false) + " mph", texture );
             
-            dsName.draw( offsetX, offsetY, gen.ShortNameWTCC( gameData.getScoringInfo().getViewedVehicleScoringInfo().getDriverName().toUpperCase() ), texture );
+            dsName.draw( offsetX, offsetY, PrunnWidgetSet_wtcc_2011.ShortNameWTCC( gameData.getScoringInfo().getViewedVehicleScoringInfo().getDriverName().toUpperCase() ), texture );
             
         }
          

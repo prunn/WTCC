@@ -28,8 +28,6 @@ import net.ctdp.rfdynhud.values.FloatValue;
 import net.ctdp.rfdynhud.values.IntValue;
 import net.ctdp.rfdynhud.values.StringValue;
 import net.ctdp.rfdynhud.widgets.base.widget.Widget;
-
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import com.prunn.rfdynhud.widgets.prunn._util.PrunnWidgetSet_wtcc_2011;
 
 /**
@@ -68,7 +66,6 @@ public class ResultMonitorWidget extends Widget
     private StringValue[] driverNames = null;
     private StringValue[] driverTeam = null;
     private FloatValue[] gaps = null;
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     private BooleanProperty AbsTimes = new BooleanProperty("Use absolute times", false) ;
     private int NumOfPNG = 0;
     private String[] listPNG;
@@ -76,7 +73,7 @@ public class ResultMonitorWidget extends Widget
     
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -202,7 +199,7 @@ public class ResultMonitorWidget extends Widget
             if(vsi != null)
             {
                 positions[i].update( vsi.getPlace( false ) );
-                driverNames[i].update( gen.ShortNameWTCC( vsi.getDriverName().toUpperCase()) );
+                driverNames[i].update( PrunnWidgetSet_wtcc_2011.ShortNameWTCC( vsi.getDriverName().toUpperCase()) );
                 //driverTeam[i].update( gen.generateShortTeamNames( vsi.getVehicleInfo().getFullTeamName(), gameData.getFileSystem().getConfigFolder() ));
                 
                 if(vsi.getVehicleInfo() != null)

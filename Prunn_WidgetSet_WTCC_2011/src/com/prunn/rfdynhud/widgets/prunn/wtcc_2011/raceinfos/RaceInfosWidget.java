@@ -2,10 +2,7 @@ package com.prunn.rfdynhud.widgets.prunn.wtcc_2011.raceinfos;
 
 import java.io.File;
 import java.io.IOException;
-
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import com.prunn.rfdynhud.widgets.prunn._util.PrunnWidgetSet_wtcc_2011;
-
 import net.ctdp.rfdynhud.gamedata.Laptime;
 import net.ctdp.rfdynhud.gamedata.LiveGameData;
 import net.ctdp.rfdynhud.gamedata.ScoringInfo;
@@ -94,14 +91,13 @@ public class RaceInfosWidget extends Widget
     
     private int widgetpart = 0;//0-info 1-pitstop 2-fastestlap 3-winner
     private final FloatValue FastestLapTime = new FloatValue(-1F, 0.001F);
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     private int NumOfPNG = 0;
     private String[] listPNG;
     
     
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -510,7 +506,7 @@ public class RaceInfosWidget extends Widget
                         //if(scoringInfo.getViewedVehicleScoringInfo().getScalarVelocity() < 2)
                             //pittime = endtimestamp - timestamp;
                         
-                        top1info1 = gen.ShortNameWTCC( currentcarinfos.getDriverName().toUpperCase());
+                        top1info1 = PrunnWidgetSet_wtcc_2011.ShortNameWTCC( currentcarinfos.getDriverName().toUpperCase());
                         top2info1 = "Pit Lane";
                         //top3info2c = TimingUtil.getTimeAsString(pittime, false, false, true, false );
                         top3info1 = "Pit Stop";
@@ -531,7 +527,7 @@ public class RaceInfosWidget extends Widget
                         else
                             top3info1 = fastcarinfos.getVehicleClass(); 
                         
-                        top2info1 = gen.ShortNameWTCC( fastcarinfos.getDriverName().toUpperCase());
+                        top2info1 = PrunnWidgetSet_wtcc_2011.ShortNameWTCC( fastcarinfos.getDriverName().toUpperCase());
                         
                         top3info2 = TimingUtil.getTimeAsLaptimeString(FastestLapTime.getValue() );
                         
@@ -564,7 +560,7 @@ public class RaceInfosWidget extends Widget
                             }
                         } 
                         
-                        top2info1 = gen.ShortNameWTCC( winnercarinfos.getDriverName().toUpperCase());
+                        top2info1 = PrunnWidgetSet_wtcc_2011.ShortNameWTCC( winnercarinfos.getDriverName().toUpperCase());
                         
                         for(int i=0; i < NumOfPNG; i++)
                         {
@@ -619,7 +615,7 @@ public class RaceInfosWidget extends Widget
                         
                         
                         
-                        top2info1 = gen.ShortNameWTCC( currentcarinfosInfo.getDriverName().toUpperCase());
+                        top2info1 = PrunnWidgetSet_wtcc_2011.ShortNameWTCC( currentcarinfosInfo.getDriverName().toUpperCase());
                         pos = Integer.toString( currentcarinfosInfo.getPlace(false) );
                         
                         dsPos.draw( offsetX, offsetY, pos, texture );

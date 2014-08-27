@@ -3,8 +3,6 @@ package com.prunn.rfdynhud.widgets.prunn.wtcc_2011.racetower;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
-
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import net.ctdp.rfdynhud.gamedata.GamePhase;
 import net.ctdp.rfdynhud.gamedata.LiveGameData;
 import net.ctdp.rfdynhud.gamedata.ScoringInfo;
@@ -57,12 +55,11 @@ public class RaceTowerWidget extends Widget
     private final IntValue carsOnLeadLap = new IntValue();
     private short[] positions = null;
     private String[] names = null;
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     
     
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -133,7 +130,7 @@ public class RaceTowerWidget extends Widget
             VehicleScoringInfo vsi = scoringInfo.getVehicleScoringInfo( i );
             positions[off] = vsi.getPlace( false );
             //logCS(off, positions[off], vsi.getPlace( false ));
-            names[off] = gen.ShortNameWTCC( vsi.getDriverName() );
+            names[off] = PrunnWidgetSet_wtcc_2011.ShortNameWTCC( vsi.getDriverName() );
             //if(names[off].indexOf( ' ' ) > 0)
                 //names[off] = names[off].substring( names[off].indexOf( ' ' ) + 1 );
         }

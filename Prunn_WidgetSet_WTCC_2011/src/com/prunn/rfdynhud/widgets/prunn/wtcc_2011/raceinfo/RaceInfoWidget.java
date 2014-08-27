@@ -2,10 +2,7 @@ package com.prunn.rfdynhud.widgets.prunn.wtcc_2011.raceinfo;
 
 import java.awt.Font;
 import java.io.IOException;
-
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import com.prunn.rfdynhud.widgets.prunn._util.PrunnWidgetSet_wtcc_2011;
-
 import net.ctdp.rfdynhud.gamedata.LiveGameData;
 import net.ctdp.rfdynhud.gamedata.ScoringInfo;
 import net.ctdp.rfdynhud.gamedata.VehicleScoringInfo;
@@ -41,7 +38,7 @@ public class RaceInfoWidget extends Widget
     
     
     private DrawnString dsName = null;
-    private final ImagePropertyWithTexture imgName = new ImagePropertyWithTexture( "imgName", "prunn/WTCC/onboard2.png" );
+    private final ImagePropertyWithTexture imgName = new ImagePropertyWithTexture( "imgName", "prunn/WTCC/onboard.png" );
     
     protected final FontProperty wtcc_2011_Font = new FontProperty("Main Font", PrunnWidgetSet_wtcc_2011.WTCC_2011_FONT_NAME);
     private final ColorProperty fontColor2 = new ColorProperty("fontColor2", PrunnWidgetSet_wtcc_2011.FONT_COLOR2_NAME);
@@ -51,12 +48,11 @@ public class RaceInfoWidget extends Widget
     private long visibleEnd;
     private IntValue cveh = new IntValue();
     private BoolValue cpit = new BoolValue();
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     private StringValue name = new StringValue();
     private IntProperty fontyoffset = new IntProperty("Y Font Offset", 0);
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -130,7 +126,7 @@ public class RaceInfoWidget extends Widget
         {
     	    VehicleScoringInfo currentcarinfos = gameData.getScoringInfo().getViewedVehicleScoringInfo();
             
-        	name.update( gen.ShortNameWTCC(currentcarinfos.getDriverName()) );
+        	name.update( PrunnWidgetSet_wtcc_2011.ShortNameWTCC(currentcarinfos.getDriverName()) );
             
             if( uppercasename.getValue() )
                 dsName.draw( offsetX, offsetY, name.getValue().toUpperCase(), texture );

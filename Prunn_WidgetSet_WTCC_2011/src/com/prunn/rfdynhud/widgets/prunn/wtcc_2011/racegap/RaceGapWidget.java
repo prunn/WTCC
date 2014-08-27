@@ -3,11 +3,8 @@ package com.prunn.rfdynhud.widgets.prunn.wtcc_2011.racegap;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
-
-import com.prunn.rfdynhud.plugins.tlcgenerator.StandardTLCGenerator;
 import com.prunn.rfdynhud.widgets.prunn._util.PrunnWidgetSet_wtcc_2011;
 import com.prunn.rfdynhud.widgets.prunn.wtcc_2011.raceinfos.RaceInfosWidget;
-
 import net.ctdp.rfdynhud.gamedata.LiveGameData;
 import net.ctdp.rfdynhud.gamedata.ScoringInfo;
 import net.ctdp.rfdynhud.gamedata.VehicleScoringInfo;
@@ -69,7 +66,6 @@ public class RaceGapWidget extends Widget
     private String  name, name2, team, team2;
     private int place, place2;
     private String gap;
-    StandardTLCGenerator gen = new StandardTLCGenerator();
     public static Boolean isvisible = false;
     public static Boolean visible()
     {
@@ -78,7 +74,7 @@ public class RaceGapWidget extends Widget
     
     
     @Override
-    public void onRealtimeEntered( LiveGameData gameData, boolean isEditorMode )
+    public void onCockpitEntered( LiveGameData gameData, boolean isEditorMode )
     {
         super.onCockpitEntered( gameData, isEditorMode );
         String cpid = "Y29weXJpZ2h0QFBydW5uMjAxMQ";
@@ -137,9 +133,9 @@ public class RaceGapWidget extends Widget
         }
         
         place = vsi1.getPlace(false);
-        name = gen.ShortNameWTCC(  vsi1.getDriverName());
+        name = PrunnWidgetSet_wtcc_2011.ShortNameWTCC(  vsi1.getDriverName());
         place2 = vsi2.getPlace(false);
-        name2 = gen.ShortNameWTCC(  vsi2.getDriverName() );
+        name2 = PrunnWidgetSet_wtcc_2011.ShortNameWTCC(  vsi2.getDriverName() );
         //team = gen.generateShortTeamNames( vsi1.getVehicleInfo().getFullTeamName(), gameData.getFileSystem().getConfigFolder() );
         //team2 = gen.generateShortTeamNames( vsi2.getVehicleInfo().getFullTeamName(), gameData.getFileSystem().getConfigFolder() );
         
